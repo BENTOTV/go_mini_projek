@@ -27,6 +27,7 @@ func GetLayananByID(id int) (interface{}, error) {
 }
 
 func CreateLayanan(Layanan models.Layanan) (interface{}, error) {
+
 	err := DB.Create(&Layanan).Error
 
 	if err != nil {

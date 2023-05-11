@@ -2,6 +2,7 @@ package contoller
 
 import (
 	database "myapp/lib/database"
+	//utils "myapp/lib/middleware"
 	models "myapp/model"
 	"net/http"
 	"strconv"
@@ -53,6 +54,18 @@ func CreateLayananController(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
+
+	Admin := models.Admin{}
+	c.Bind(&Admin)
+
+	// if Admin.Password != "" {
+	// 	hash, err := utils.HashPassword(Admin.Password)
+	// 	if err != nil {
+	// 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	// 	}
+
+	// 	Admin.Password = hash
+	// }
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "success creating Layanan",

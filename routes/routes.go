@@ -67,6 +67,9 @@ func New() *echo.Echo {
 
 	NewUserControllers(e)
 	NewAdminControllers(e)
+	NewLayananControllers(e)
+	NewNotifikasiControllers(e)
+	NewTransaksiControllers(e)
 
 	return e
 }
@@ -92,7 +95,7 @@ func NewAdminControllers(e *echo.Echo) {
 
 	// No auth
 	e.POST("/cadmins", controllers.CreateAdminController)
-	e.POST("/login", controllers.LoginController)
+	e.POST("/loginadmin", controllers.LoginAdminController)
 
 	// Auth
 	secureGroup.GET("/admins/:id", controllers.GetAdminController)
@@ -105,12 +108,10 @@ func NewLayananControllers(e *echo.Echo) {
 	secureGroup := e.Group("")
 	secureGroup.Use(middleware.JWT([]byte(config.JWT_SECRET)))
 
-	// No auth
-	e.GET("/layanans", controllers.GetLayanansController)
-	e.GET("/layanans/:id", controllers.GetLayananController)
+	secureGroup.GET("/layanans", controllers.GetLayanansController)
+	secureGroup.GET("/layanans/:id", controllers.GetLayananController)
 
-	// Auth
-	secureGroup.POST("/layanans", controllers.CreateLayananController)
+	secureGroup.POST("/listLayanans", controllers.CreateLayananController)
 	secureGroup.DELETE("/layanans/:id", controllers.DeleteLayananController)
 	secureGroup.PUT("/layanans/:id", controllers.UpdateLayananController)
 }
@@ -119,9 +120,8 @@ func NewTransaksiControllers(e *echo.Echo) {
 	secureGroup := e.Group("")
 	secureGroup.Use(middleware.JWT([]byte(config.JWT_SECRET)))
 
-	// No auth
-	e.GET("/transaksis", controllers.GetTransaksisController)
-	e.GET("/transaksis/:id", controllers.GetTransaksiController)
+	secureGroup.GET("/transaksis", controllers.GetTransaksisController)
+	secureGroup.GET("/transaksis/:id", controllers.GetTransaksiController)
 
 	// Auth
 	secureGroup.POST("/transaksis", controllers.CreateTransaksiController)
